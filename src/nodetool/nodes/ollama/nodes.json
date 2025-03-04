@@ -1,0 +1,271 @@
+{
+  "name": "nodetool-ollama",
+  "description": "Ollama nodes for Nodetool",
+  "version": "0.6.0",
+  "authors": [
+    "Matthias Georgi <matti.georgi@gmail.com>"
+  ],
+  "nodes": [
+    {
+      "title": "Aggregate Embeddings",
+      "description": "Aggregate embeddings into a single vector.\n\n    Use cases:\n    - Power semantic search capabilities\n    - Enable text clustering and categorization\n    - Support recommendation systems\n    - Detect semantic anomalies or outliers\n    - Measure text diversity or similarity\n    - Aid in text classification tasks",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.AggregateEmbeddings",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model"
+        },
+        {
+          "name": "chunks",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "default": [],
+          "title": "Chunks",
+          "description": "The chunks of text to embed."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0
+        },
+        {
+          "name": "aggregation",
+          "type": {
+            "type": "enum",
+            "values": [
+              "mean",
+              "max",
+              "min",
+              "sum"
+            ],
+            "type_name": "nodetool.nodes.ollama.text.EmbeddingAggregation"
+          },
+          "default": "mean",
+          "title": "Aggregation",
+          "description": "The aggregation method to use for the embeddings."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "np_array"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "chunks"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Embedding",
+      "description": "Generate vector representations of text for semantic similarity.\n    embeddings, semantic analysis, text similarity, search, clustering\n\n    Use cases:\n    - Power semantic search capabilities\n    - Enable text clustering and categorization\n    - Support recommendation systems\n    - Detect semantic anomalies or outliers\n    - Measure text diversity or similarity\n    - Aid in text classification tasks",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.Embedding",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "input",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Input"
+        },
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model"
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "np_array"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "input"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Ollama",
+      "description": "Run Llama models to generate text responses.\n    LLM, llama, text generation, language model, ai assistant\n\n    Use cases:\n    - Generate creative writing or stories\n    - Answer questions or provide explanations\n    - Assist with tasks like coding, analysis, or problem-solving\n    - Engage in open-ended dialogue on various topics",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.Ollama",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "Prompt to send to the model."
+        },
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": {},
+          "title": "Image",
+          "description": "The image to analyze"
+        },
+        {
+          "name": "system_prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "You are an assistant.",
+          "title": "System Prompt",
+          "description": "System prompt to send to the model."
+        },
+        {
+          "name": "messages",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "message"
+              }
+            ]
+          },
+          "default": [],
+          "title": "Messages",
+          "description": "History of messages to send to the model."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 64.0,
+          "max": 65536.0
+        },
+        {
+          "name": "num_predict",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Num Predict",
+          "description": "The number of tokens to predict.",
+          "min": 1.0,
+          "max": 10000.0
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.7,
+          "title": "Temperature",
+          "description": "The temperature to use for the model.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "image"
+      ],
+      "is_dynamic": false
+    }
+  ]
+}
