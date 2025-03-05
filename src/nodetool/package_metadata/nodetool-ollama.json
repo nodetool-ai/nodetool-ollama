@@ -1,0 +1,1304 @@
+{
+  "name": "nodetool-ollama",
+  "description": "Ollama nodes for Nodetool",
+  "version": "0.6.0",
+  "authors": [
+    "Matthias Georgi <matti.georgi@gmail.com>"
+  ],
+  "nodes": [
+    {
+      "title": "Chart Generator",
+      "description": "LLM Agent to create chart configurations based on natural language descriptions.\n    llm, data visualization, charts\n\n    Use cases:\n    - Generating chart configurations from natural language descriptions\n    - Creating data visualizations programmatically\n    - Converting data analysis requirements into visual representations",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.ChartGenerator",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use for chart generation."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "Natural language description of the desired chart"
+        },
+        {
+          "name": "plot_type",
+          "type": {
+            "type": "enum",
+            "values": [
+              "scatter",
+              "line",
+              "relplot",
+              "histplot",
+              "kdeplot",
+              "ecdfplot",
+              "rugplot",
+              "distplot",
+              "stripplot",
+              "swarmplot",
+              "boxplot",
+              "violinplot",
+              "boxenplot",
+              "pointplot",
+              "barplot",
+              "countplot",
+              "regplot",
+              "lmplot",
+              "residplot",
+              "heatmap",
+              "clustermap",
+              "jointplot",
+              "pairplot",
+              "facetgrid"
+            ],
+            "type_name": "nodetool.metadata.types.SeabornPlotType"
+          },
+          "default": "line",
+          "title": "Plot Type",
+          "description": "The type of plot to generate"
+        },
+        {
+          "name": "data",
+          "type": {
+            "type": "dataframe"
+          },
+          "default": {},
+          "title": "Data",
+          "description": "The data to visualize"
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.7,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        },
+        {
+          "name": "columns",
+          "type": {
+            "type": "record_type"
+          },
+          "default": {},
+          "title": "Columns",
+          "description": "The columns available in the data."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "chart_config"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "data",
+        "plot_type"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Classifier",
+      "description": "LLM Agent to classify text into predefined categories.\n    llm, classification, text analysis\n\n    Use cases:\n    - Text categorization\n    - Sentiment analysis\n    - Topic classification\n    - Intent detection",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.Classifier",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use for classification."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "input_text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Input Text",
+          "description": "The text to classify"
+        },
+        {
+          "name": "labels",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Labels",
+          "description": "Comma-separated list of possible classification labels"
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.0,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 1,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "input_text",
+        "labels"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Data Extractor",
+      "description": "LLM Agent to extract structured data from text based on a provided JSON schema.\n    llm, data extraction, text analysis\n\n    Use cases:\n    - Extract specific fields from unstructured text\n    - Convert text to structured data formats\n    - Information extraction from documents\n    - Named entity recognition with specific schema",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.DataExtractor",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "The text to extract data from"
+        },
+        {
+          "name": "system_prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "System Prompt",
+          "description": "The system prompt to use for the model."
+        },
+        {
+          "name": "json_schema",
+          "type": {
+            "type": "json"
+          },
+          "default": {},
+          "title": "Json Schema",
+          "description": "The JSON schema that defines the structure of the output. Must be an object type."
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.2,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "text",
+        "json_schema",
+        "system_prompt"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Data Generator",
+      "description": "LLM Agent to create a dataframe based on a user prompt.\n    llm, dataframe creation, data structuring\n\n    Use cases:\n    - Generating structured data from natural language descriptions\n    - Creating sample datasets for testing or demonstration\n    - Converting unstructured text into tabular format",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.DataGenerator",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "The user prompt"
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 1.0,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        },
+        {
+          "name": "columns",
+          "type": {
+            "type": "record_type"
+          },
+          "default": {},
+          "title": "Columns",
+          "description": "The columns to use in the dataframe."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dataframe"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "columns"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Regression Analyst",
+      "description": "Agent that performs regression analysis on a given dataframe and provides insights.\n    llm, regression analysis, statistics\n\n    Use cases:\n    - Performing linear regression on datasets\n    - Interpreting regression results like a data scientist\n    - Providing statistical summaries and insights",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.RegressionAnalyst",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use for regression analysis."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "The user prompt or question regarding the data analysis."
+        },
+        {
+          "name": "data",
+          "type": {
+            "type": "dataframe"
+          },
+          "default": {},
+          "title": "Data",
+          "description": "The dataframe to perform regression on."
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.0,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "data"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "SVG Generator",
+      "description": "LLM Agent to create SVG elements based on a user prompt.\n    llm, svg generation, vector graphics\n\n    Use cases:\n    - Generating SVG graphics from natural language descriptions\n    - Creating vector illustrations programmatically\n    - Converting text descriptions into visual elements",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.SVGGenerator",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "The user prompt for SVG generation"
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.7,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "svg_element"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Schema Generator",
+      "description": "LLM Agent to generate structured data based on a provided JSON schema.\n    llm, json schema, data generation, structured data\n\n    Use cases:\n    - Generate sample data matching a specific schema\n    - Create test data with specific structure\n    - Convert natural language to structured data\n    - Populate templates with generated content",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.SchemaGenerator",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 8192.0
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "The user prompt for data generation"
+        },
+        {
+          "name": "schema",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Schema",
+          "description": "The JSON schema that defines the structure of the output"
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.7,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "dict"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "schema"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Summarize Chunks",
+      "description": "LLM Agent to break down and summarize long text into manageable chunks.\n    llm, summarization, text processing\n\n    Use cases:\n    - Breaking down long documents\n    - Initial summarization of large texts\n    - Preparing content for final summarization",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.SummarizeChunks",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use for summarization."
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "\n        Create a summary following these rules:\n        \u2022 Focus ONLY on the key information from the source text\n        \u2022 Maintain a neutral, objective tone throughout\n        \u2022 Present information in a logical flow\n        \u2022 Remove any redundant points\n        \u2022 Keep only the most important ideas and relationships\n        * NO CONCLUSION\n        * NO INTRODUCTION\n        * NO EXPLANATION OR ADDITIONAL TEXT\n        * ONLY RESPOND WITH THE SUMMARY",
+          "title": "Prompt",
+          "description": "Instruction for summarizing individual chunks of text"
+        },
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "The text to summarize"
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 16384.0
+        },
+        {
+          "name": "num_predict",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Num Predict",
+          "description": "Number of tokens to predict for each chunk",
+          "min": 0.0,
+          "max": 16384.0
+        },
+        {
+          "name": "chunk_overlap",
+          "type": {
+            "type": "int"
+          },
+          "default": 100,
+          "title": "Chunk Overlap",
+          "description": "Number of tokens to overlap between chunks",
+          "min": 0.0
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.0,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "text",
+        "prompt"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Summarizer",
+      "description": "LLM Agent to summarize text\n    llm, summarization, text processing\n\n    Use cases:\n    - Creating final summaries from multiple sources\n    - Combining chapter summaries\n    - Generating executive summaries",
+      "namespace": "ollama.agents",
+      "node_type": "ollama.agents.Summarizer",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use for summarization."
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "Create a summary following these rules:\n\u2022 Focus ONLY on the key information from the source text\n\u2022 Maintain a neutral, objective tone throughout\n\u2022 Present information in a logical flow\n\u2022 Remove any redundant points\n\u2022 Keep only the most important ideas and relationships\n* NO CONCLUSION\n* NO INTRODUCTION\n* NO EXPLANATION OR ADDITIONAL TEXT\n* ONLY RESPOND WITH THE SUMMARY",
+          "title": "Prompt",
+          "description": "Instruction for creating the final summary"
+        },
+        {
+          "name": "text",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Text",
+          "description": "The text to summarize"
+        },
+        {
+          "name": "num_predict",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Num Predict",
+          "description": "Number of tokens to predict",
+          "min": 0.0,
+          "max": 16384.0
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0,
+          "max": 16384.0
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.0,
+          "title": "Temperature",
+          "description": "The temperature to use for sampling.",
+          "min": 0.0,
+          "max": 2.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "text",
+        "prompt"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Aggregate Embeddings",
+      "description": "Aggregate embeddings into a single vector.\n\n    Use cases:\n    - Power semantic search capabilities\n    - Enable text clustering and categorization\n    - Support recommendation systems\n    - Detect semantic anomalies or outliers\n    - Measure text diversity or similarity\n    - Aid in text classification tasks",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.AggregateEmbeddings",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model"
+        },
+        {
+          "name": "chunks",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "str"
+              }
+            ]
+          },
+          "default": [],
+          "title": "Chunks",
+          "description": "The chunks of text to embed."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0
+        },
+        {
+          "name": "aggregation",
+          "type": {
+            "type": "enum",
+            "values": [
+              "mean",
+              "max",
+              "min",
+              "sum"
+            ],
+            "type_name": "nodetool.nodes.ollama.text.EmbeddingAggregation"
+          },
+          "default": "mean",
+          "title": "Aggregation",
+          "description": "The aggregation method to use for the embeddings."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "np_array"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "chunks"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Embedding",
+      "description": "Generate vector representations of text for semantic similarity.\n    embeddings, semantic analysis, text similarity, search, clustering\n\n    Use cases:\n    - Power semantic search capabilities\n    - Enable text clustering and categorization\n    - Support recommendation systems\n    - Detect semantic anomalies or outliers\n    - Measure text diversity or similarity\n    - Aid in text classification tasks",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.Embedding",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "input",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Input"
+        },
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model"
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 1.0
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "np_array"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "input"
+      ],
+      "is_dynamic": false
+    },
+    {
+      "title": "Ollama",
+      "description": "Run Llama models to generate text responses.\n    LLM, llama, text generation, language model, ai assistant\n\n    Use cases:\n    - Generate creative writing or stories\n    - Answer questions or provide explanations\n    - Assist with tasks like coding, analysis, or problem-solving\n    - Engage in open-ended dialogue on various topics",
+      "namespace": "ollama.text",
+      "node_type": "ollama.text.Ollama",
+      "layout": "default",
+      "properties": [
+        {
+          "name": "model",
+          "type": {
+            "type": "llama_model"
+          },
+          "default": {},
+          "title": "Model",
+          "description": "The Llama model to use."
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "",
+          "title": "Prompt",
+          "description": "Prompt to send to the model."
+        },
+        {
+          "name": "image",
+          "type": {
+            "type": "image"
+          },
+          "default": {},
+          "title": "Image",
+          "description": "The image to analyze"
+        },
+        {
+          "name": "system_prompt",
+          "type": {
+            "type": "str"
+          },
+          "default": "You are an assistant.",
+          "title": "System Prompt",
+          "description": "System prompt to send to the model."
+        },
+        {
+          "name": "messages",
+          "type": {
+            "type": "list",
+            "type_args": [
+              {
+                "type": "message"
+              }
+            ]
+          },
+          "default": [],
+          "title": "Messages",
+          "description": "History of messages to send to the model."
+        },
+        {
+          "name": "context_window",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Context Window",
+          "description": "The context window size to use for the model.",
+          "min": 64.0,
+          "max": 65536.0
+        },
+        {
+          "name": "num_predict",
+          "type": {
+            "type": "int"
+          },
+          "default": 4096,
+          "title": "Num Predict",
+          "description": "The number of tokens to predict.",
+          "min": 1.0,
+          "max": 10000.0
+        },
+        {
+          "name": "temperature",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.7,
+          "title": "Temperature",
+          "description": "The temperature to use for the model.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "top_k",
+          "type": {
+            "type": "int"
+          },
+          "default": 50,
+          "title": "Top K",
+          "description": "The number of highest probability tokens to keep for top-k sampling.",
+          "min": 1.0,
+          "max": 100.0
+        },
+        {
+          "name": "top_p",
+          "type": {
+            "type": "float"
+          },
+          "default": 0.95,
+          "title": "Top P",
+          "description": "The cumulative probability cutoff for nucleus/top-p sampling.",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "name": "keep_alive",
+          "type": {
+            "type": "int"
+          },
+          "default": 300,
+          "title": "Keep Alive",
+          "description": "The number of seconds to keep the model alive."
+        }
+      ],
+      "outputs": [
+        {
+          "type": {
+            "type": "str"
+          },
+          "name": "output"
+        }
+      ],
+      "the_model_info": {},
+      "recommended_models": [],
+      "basic_fields": [
+        "model",
+        "prompt",
+        "image"
+      ],
+      "is_dynamic": false
+    }
+  ]
+}
